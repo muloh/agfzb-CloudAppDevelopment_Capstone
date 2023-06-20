@@ -34,16 +34,35 @@
       </li>
       
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <form method="post" action="" class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
     <!-- Login -->
-    <ul class="navbar-nav ml-5">
+   
+    <ul class="navbar-nav ml-5 mr-3">
+         {% if not user.is_authenticated %}
         <li class="nav-item">
-        <a class="nav-link btn btn-outline-success" href="{% url 'contact' %}">Login/Sign Up</a>
-      </li>
+            <a class="nav-link btn btn-outline-success" href="{% url 'registration' %}">Sign Up</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link " href="{% url 'logout' %}">{{user.username}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link btn btn-outline-success" href="{% url 'logout' %}">Logout</a>
+        </li>
+        {% endif %}
     </ul>
+     {% if not user.is_authenticated %}
+    <form method="post" action="{% url 'login' %}" class="form-inline my-2 my-lg-0">
+        {% csrf_token %}
+      <input class="form-control mr-sm-2" name="username" type="text" placeholder="username" aria-label="username">
+      <input class="form-control mr-sm-2" type="password" name="password" placeholder="password" aria-label="password">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+    </form>
+    {% endif %}
+    <!-- end login -->
   </div>
 </nav>
  {% block content %}
@@ -117,6 +136,6 @@
 
 {% endblock %}
     </body>
-}
+
 
 </html>

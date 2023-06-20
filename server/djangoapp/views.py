@@ -28,16 +28,59 @@ def contact(request):
 
 # Create a `login_request` view to handle sign in request
 def login_request(request):
-    return render(request, 'djangoapp/login.html', {})
+    user = request.user
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username = username, password = password)
+
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect('/djangoapp/')
+        else:
+            return render(request, 'djangoapp/login.html', {'user': user})
+    else:
+        return render(request, 'djangoapp/login.html', {'user':user})
+
 
 # Create a `logout_request` view to handle sign out request
 def logout_request(request):
     logout(request)
-    return HttpResponseRedirect('/login')
+    return HttpResponseRedirect('/djangoapp/')
+
+
 
 # Create a `registration_request` view to handle sign up request
 def registration_request(request):
-    return render(request, 'djangoapp/registration.html', {})
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+
+        if not (password == confirm_password):
+            error_msg = "Passwords do not match"
+            return render(request, 'djangoapp/registration.html', {'error_msg':error_msg})
+
+        user_exist = False
+
+        try:
+            User.objects.get(username = username) # checking if user exist  
+            user_exist = True
+        except:
+            print(' %s is a new user '%username)
+
+        if not user_exist:
+            user = User.objects.create_user(username = username, email=email, first_name = first_name, last_name = last_name)
+            login(request, user)
+            return HttpResponseRedirect('/')
+    else:
+        return render(request, 'djangoapp/registration.html', {})
+
+
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):
