@@ -17,10 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from djangoapp.views import home
+from djangoapp.views import home, get_dealer_details, add_review
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('djangoapp/', include('djangoapp.urls')),
     path('', home, name='home'),
+    path('add_review/<id>/', add_review, name="add_review"),
+    
+    path('dealer-details/<dealer_id>/', get_dealer_details, name='get_dealer_details'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

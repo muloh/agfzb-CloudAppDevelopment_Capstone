@@ -78,55 +78,26 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Zip</th>
+                    <th scope="col">State</th>
                   </tr>
                 </thead>
                 <tbody>
+                     {% for dealer in dealership_list %}
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
+                    <td>{{dealer.id}}</td>
+                    <td><a href="{% url 'get_dealer_details' dealer.id %}">{{dealer.full_name}}</a></td>
+                    <td>{{dealer.city}}</td>
+                    <td>{{dealer.address}}</td>
+                    <td>{{dealer.zip}}</td>
+                    <td>{{dealer.st}}</td>
                   </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
+                  {% endfor %}
+
                 </tbody>
               </table>
             </div>
