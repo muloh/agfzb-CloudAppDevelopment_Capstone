@@ -1,9 +1,12 @@
 import requests
 import json
-# import related models here
+import os
+from .models import CarDealer, DealerReview
 from requests.auth import HTTPBasicAuth
-from .models import CarDealer
-
+# from decouple import config
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
 # Create a `get_request` to make HTTP GET requests
 # e.g., response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
 #                                     auth=HTTPBasicAuth('apikey', api_key))
@@ -85,10 +88,8 @@ def get_dealer_reviews_from_cf(url, **kwargs):
     id = kwargs.get("id")
     if id:
         json_result = get_request(url, id=id)
-        print("====", json_result)
     else:
         json_result = get_request(url)
-    print("#####", json_result)
     if json_result:
         reviews = json_result["data"]["docs"]
         for dealer_review in reviews:
@@ -133,7 +134,7 @@ def post_request(url, payload, **kwargs):
 
 
 def analyze_review_sentiments(text):
-	
+
     url = "https://api.au-syd.natural-language-understanding.watson.cloud.ibm.com/instances/861a92c7-e751-4cb3-a50f-b7671d0ad080"
     api_key = "d7B3EEC5pRTBg7Ch2zs0R_wYy4yaS2NSZm8_Lpbm61tv"
     authenticator = IAMAuthenticator(api_key)

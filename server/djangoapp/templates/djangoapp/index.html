@@ -24,7 +24,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'about' %}">About</a>
@@ -75,7 +75,7 @@
                 <div class="text-center">
                     <h3>Car Dealers</h3>
                 </div>
-              <table class="table">
+              <table class="table" id="table" data-filter-control="true">
                 <thead>
                   <tr>
                     <th scope="col">ID</th>
@@ -83,7 +83,7 @@
                     <th scope="col">City</th>
                     <th scope="col">Address</th>
                     <th scope="col">Zip</th>
-                    <th scope="col">State</th>
+                    <th scope="col" data-field="state" data-filter-control="select">State</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -106,6 +106,12 @@
     </div>
 
 {% endblock %}
+
+<script>
+  $(function() {
+    $('#table').bootstrapTable()
+  })
+</script>
     </body>
 
 

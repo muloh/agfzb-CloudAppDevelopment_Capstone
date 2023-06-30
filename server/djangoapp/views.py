@@ -9,6 +9,8 @@ from django.contrib import messages
 from datetime import datetime
 import logging
 import json
+import requests
+
 
 from .models import *
 from .restapis import get_request, get_dealers_from_cf, get_dealer_by_id_from_cf, get_dealer_reviews_from_cf, post_request, analyze_review_sentiments
@@ -105,12 +107,13 @@ def get_dealerships(request):
 
 
 def get_dealer_details(request, dealer_id):
+    id_dealer = 15
     context = {}
     if request.method == "GET":
-        url = "https://us-south.functions.appdomain.cloud/api/v1/web/f8c68992-0352-4114-b193-40963503b670/dealership-review-package/get-dealership-reviews?id={0}".format(dealer_id)
+        url = "https://us-south.functions.appdomain.cloud/api/v1/web/f8c68992-0352-4114-b193-40963503b670/dealership-review-package/get-dealership-reviews?id={0}".format(id_dealer)
         reviews = get_dealer_reviews_from_cf(url, dealer_id=dealer_id)
 
-        return render(request, 'djangoapp/dealer_details.html', {"reviews":  reviews, "dealer_id": dealer_id})
+        return render(request, 'djangoapp/dealer_details.html', {"reviews":  reviews, "id_dealer": id_dealer})
 
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
